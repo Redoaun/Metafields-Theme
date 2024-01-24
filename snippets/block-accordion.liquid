@@ -1,0 +1,109 @@
+<style>
+  block-accordion {
+    color: black;
+  }
+
+  block-accordion .tab-name {
+    text-align: left;
+    letter-spacing: 0px;
+    background: #dcdcdc;
+    padding: 10px 15px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  block-accordion .tab-name small {
+    font-size: 0.7em;
+  }
+
+  block-accordion .tab .tab-name img {
+    transition: transform 0.4s ease-in-out;
+  }
+
+  block-accordion .tab.opened .tab-name img {
+    transform: rotate(90deg);
+  }
+
+  block-accordion .tab-content {
+    display: none;
+    width: 100%;
+    padding: 15px;
+  }
+
+  block-accordion .tab-content a {
+    color: black;
+  }
+
+</style>
+
+<block-accordion class="tab-description">
+  <div class="tabs-wrapper">
+    {%- if product.metafields.custom.technical_sheet -%}
+      <div class="tab" data-tab="metafields-technical">
+        <div class="tab-name">
+          <span>Ficha técnica<br><small>{% raw %}{{ product.metafields.custom.technical_sheet }}{% endraw %}</small></span>
+          <img src="{{ 'caret.svg' | asset_url }}" alt="arrow" width="24px">
+        </div>
+        <div class="tab-content metafields-technical">
+          {{ product.metafields.custom.technical_sheet | metafield_tag }}
+        </div>
+      </div>
+    {%- endif -%}
+    {%- if product.metafields.custom.description -%}
+      <div class="tab" data-tab="metafields-desc">
+        <div class="tab-name">
+          <span>Descripción marketing<br><small>{% raw %}{{ product.metafields.custom.description }}{% endraw %}</small></span>
+          <img src="{{ 'caret.svg' | asset_url }}" alt="arrow" width="24px">
+        </div>
+        <div class="tab-content metafields-desc">
+          {{ product.metafields.custom.description | metafield_tag}}
+        </div>
+      </div>
+    {%- endif -%}
+    {%- if product.metafields.custom.link -%}
+      <div class="tab" data-tab="metafields-link">
+        <div class="tab-name">
+          <span>Enlace al manual<br><small>{% raw %}{{ product.metafields.custom.link }}{% endraw %}</small></span>
+          <img src="{{ 'caret.svg' | asset_url }}" alt="arrow" width="24px">
+        </div>
+        <div class="tab-content metafields-link">
+          <a href="{{ product.metafields.custom.link }}" style="word-wrap:break-word">{{ product.metafields.custom.link }}</a>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</block-accordion>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    class BlockAccordion extends HTMLElement {
+      constructor() {
+        super();
+        this.tabs = this.querySelectorAll('.tab');
+        this.tabs.forEach( tab => {
+          tab.querySelector('.tab-name').addEventListener('click', () => {
+            let t_gap = tab.getBoundingClientRect().top - window.scrollY;
+            document.querySelectorAll('block-accordion .tab').forEach((sibling) => {
+              if (sibling != tab ) {
+                sibling.classList.toggle('opened', false);
+                $(sibling).find('.tab-content').slideUp();
+              }
+              else {
+                tab.classList.toggle('opened');
+                $(tab).find('.tab-content').slideToggle();
+              }
+            });
+            window.scrollTo(0, tab.getBoundingClientRect().top - t_gap);
+          });
+        });
+      }
+    }
+    customElements.define('block-accordion', BlockAccordion);
+  })
+</script>

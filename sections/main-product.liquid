@@ -534,6 +534,13 @@
               %}
           {%- endcase -%}
         {%- endfor -%}
+
+
+        {% comment %} Start Accordion {% endcomment %}
+        {% render 'block-accordion' %}
+        {% comment %} End Accordion {% endcomment %}
+
+
         <a href="{{ product.url }}" class="link product__view-details animate-arrow">
           {{ 'products.product.view_full_details' | t }}
           {% render 'icon-arrow' %}
