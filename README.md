@@ -1,7 +1,7 @@
 # Dawn
 
 ### Theme Setup
-1. Upload this theme as a zip.
+1. Upload this theme as a zip
 2. Define Metafields
   - Ficha técnica<br>
     Name:               Technical sheet<br>
@@ -16,8 +16,9 @@
     Namespace and key:  custom.link<br>
     Type:               Single line text<br>
 
+You can upload it to your test store and set the metafields, and see the result on product page
 
-### How to test?
+### Test store
 
 Store: https://testcheckoutapp.myshopify.com
 
